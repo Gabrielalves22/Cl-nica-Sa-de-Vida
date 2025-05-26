@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clínica Saúde & Vida</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f7fa;
+      color: #2c3e50;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    header {
+      background: linear-gradient(90deg, #0052cc 0%, #004080 100%);
+      padding: 20px 40px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Botão circular do menu */
+    .menu-button {
+      width: 48px;
+      height: 48px;
+      background-color: #004080;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 64, 128, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-button:hover {
+      background-color: #0066cc;
+    }
+
+    /* Ícone do menu (hambúrguer) */
+    .menu-button .bar {
+      width: 22px;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .menu-button .bar::before,
+    .menu-button .bar::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-button .bar::before {
+      top: -7px;
+    }
+
+    .menu-button .bar::after {
+      top: 7px;
+    }
+
+    /* Dropdown menu - escondido por padrão */
+    .dropdown-menu {
+      position: absolute;
+      top: 60px;
+      right: 40px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      width: 180px;
+      padding: 15px 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 200;
+    }
+
+    /* Mostrar dropdown */
+    .dropdown-menu.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 24px;
+      color: #004080;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .dropdown-menu a:hover,
+    .dropdown-menu a:focus {
+      background-color: #e1e8f0;
+      outline: none;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 40px auto 80px;
+      padding: 0 20px;
+    }
+
+    section {
+      background: #fff;
+      padding: 30px 40px;
+      margin-bottom: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #003366;
+      border-bottom: 3px solid #0052cc;
+      padding-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    p, ul {
+      font-size: 1.05rem;
+      color: #34495e;
+    }
+
+    ul {
+      list-style: inside disc;
+      padding-left: 0;
+      margin-left: 10px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 1.8px solid #bdc3c7;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      font-family: 'Roboto', sans-serif;
+      color: #2c3e50;
+    }
+
+    form input:focus, form textarea:focus {
+      border-color: #0052cc;
+      outline: none;
+      box-shadow: 0 0 8px rgba(0,82,204,0.3);
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    form button {
+      background-color: #0052cc;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,82,204,0.4);
+    }
+
+    form button:hover {
+      background-color: #003d99;
+      box-shadow: 0 6px 18px rgba(0,61,153,0.6);
+    }
+
+    footer {
+      background-color: #003366;
+      color: #cfd8dc;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      user-select: none;
+      box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      header {
+        padding: 15px 20px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .dropdown-menu {
+        right: 20px;
+        width: 140px;
+      }
+
+      section {
+        padding: 20px 25px;
+      }
+
+      .container {
+        margin: 20px auto 60px;
+        padding: 0 15px;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Clínica Saúde & Vida</h1>
+    <button class="menu-button" aria-label="Abrir menu" aria-expanded="false" aria-controls="dropdownMenu">
+      <span class="bar"></span>
+    </button>
+    <nav id="dropdownMenu" class="dropdown-menu" role="menu" aria-hidden="true">
+      <a href="#home" role="menuitem" tabindex="-1">Home</a>
+      <a href="#servicos" role="menuitem" tabindex="-1">Serviços</a>
+      <a href="#sobre" role="menuitem" tabindex="-1">Sobre Nós</a>
+      <a href="#contato" role="menuitem" tabindex="-1">Contato</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="home">
+      <h2>Bem-vindo à Clínica Saúde & Vida</h2>
+      <p>Seu cuidado é nossa prioridade. Atendimento humanizado com profissionais qualificados para cuidar da sua saúde e bem-estar.</p>
+    </section>
+
+    <section id="servicos">
+      <h2>Serviços</h2>
+      <ul>
+        <li>Consultas médicas gerais e especializadas</li>
+        <li>Exames laboratoriais</li>
+        <li>Vacinação</li>
+        <li>Acompanhamento nutricional</li>
+        <li>Fisioterapia</li>
+      </ul>
+    </section>
+
+    <section id="sobre">
+      <h2>Sobre Nós</h2>
+      <p>Fundada em 2010, a Clínica Saúde & Vida tem como missão oferecer atendimento de qualidade e humanizado, com foco no cuidado integral do paciente.</p>
+    </section>
+
+    <section id="contato">
+      <h2>Contato</h2>
+      <form action="#" method="post" novalidate>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+
+        <label for="mensagem">Mensagem</label>
+        <textarea id="mensagem" name="mensagem" placeholder="Escreva sua mensagem aqui" required></textarea>
+
+        <button type="submit">Enviar Mensagem</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Clínica Saúde & Vida - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = dropdownMenu.classList.toggle('show');
+      menuButton.setAttribute('aria-expanded', isOpen);
+      dropdownMenu.setAttribute('aria-hidden', !isOpen);
+
+      // Gerenciar foco para acessibilidade
+      if (isOpen) {
+        dropdownMenu.querySelector('a').focus();
+      } else {
+        menuButton.focus();
+      }
+    });
+
+    // Fecha o menu se clicar fora dele
+    document.addEventListener('click', (e) => {
+      if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.remove('show');
+        menuButton.setAttribute('aria-expanded', false);
+        dropdownMenu.setAttribute('aria-hidden', true);
+      }
+    });
+
+    // Navegação com teclado dentro do menu
+    dropdownMenu.addEventListener('keydown', (e) => {
+      const focusableItems = Array.from(dropdownMenu.querySelectorAll('a'));
+      const index = focusableItems.indexOf(document.activeElement);
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex = (index + 1) % focusableItems.length;
+        focusableItems[nextIndex].focus();
+      }
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex = (index - 1 + focusableItems.length) % focusableItems.length;
+        focusableItems[prevIndex].focus();
+      }
+
+      if (e.key === 'Escape') {
+        dropdownMenu.classList.remove('show');
+        menuButton.setAttribute('aria-expanded', false);
+        dropdownMenu.setAttribute('aria-hidden', true);
+        menuButton.focus();
+      }
+    });
+  </script>
+</body>
+</html>
